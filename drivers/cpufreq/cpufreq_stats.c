@@ -1384,6 +1384,13 @@ static int process_notifier(struct notifier_block *self,
 	return NOTIFY_OK;
 }
 
+void cpufreq_task_stats_free(struct task_struct *p)
+{
+	kfree(p->time_in_state);
+	kfree(p->concurrent_active_time);
+	kfree(p->concurrent_policy_time);
+}
+
 static const struct seq_operations uid_time_in_state_seq_ops = {
 	.start = uid_seq_start,
 	.next = uid_seq_next,
