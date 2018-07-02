@@ -63,6 +63,8 @@ static struct mutex gov_lock;
 
 #define FREQ_RESPONSIVENESS		 768000
 #define FREQ_RESPONSIVENESS_MAX		1094400
+#define FREQ_RESPONSIVENESS_BIGC	 960000
+#define FREQ_RESPONSIVENESS_MAX_BIGC	1401000
 
 #define FREQ_STEP_AT_MIN_FREQ		40
 #define FREQ_STEP					50
@@ -908,8 +910,13 @@ static struct cpufreq_nightmare_tunables *alloc_tunable(
 	tunables->timer_rate = DEFAULT_TIMER_RATE;
 	tunables->timer_rate_prev = DEFAULT_TIMER_RATE;
 	tunables->timer_slack_val = DEFAULT_TIMER_SLACK;
-	tunables->freq_for_responsiveness = FREQ_RESPONSIVENESS;
-	tunables->freq_for_responsiveness_max = FREQ_RESPONSIVENESS_MAX;
+	if (policy->cpu > 3) {
+		tunables->freq_for_responsiveness = FREQ_RESPONSIVENESS;
+		tunables->freq_for_responsiveness_max = FREQ_RESPONSIVENESS_MAX;
+	} else {
+		tunables->freq_for_responsiveness = FREQ_RESPONSIVENESS_BIGC;
+		tunables->freq_for_responsiveness_max = FREQ_RESPONSIVENESS_MAX_BIGC;
+	}
 	tunables->freq_step_at_min_freq = FREQ_STEP_AT_MIN_FREQ;
 	tunables->freq_step = FREQ_STEP;
 	tunables->freq_up_brake_at_min_freq = FREQ_UP_BRAKE_AT_MIN_FREQ;
