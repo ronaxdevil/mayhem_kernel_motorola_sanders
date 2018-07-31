@@ -5633,7 +5633,7 @@ static irqreturn_t fg_empty_soc_irq_handler(int irq, void *_chip)
 	if (soc_rt_sts & SOC_EMPTY) {
 		chip->soc_empty = true;
 		fg_stay_awake(&chip->empty_check_wakeup_source);
-		schedule_delayed_work(&chip->check_empty_work,
+		queue_delayed_work(system_power_efficient_wq,&chip->check_empty_work,
 			msecs_to_jiffies(FG_EMPTY_IRQ_DEBOUNCE_MS));
 	} else {
 		chip->soc_empty = false;
