@@ -27,8 +27,8 @@ void sysfs_warn_dup(struct kernfs_node *parent, const char *name)
 	if (buf)
 		path = kernfs_path(parent, buf, PATH_MAX);
 
-	WARN(1, KERN_WARNING "sysfs: cannot create duplicate filename '%s/%s'\n",
-	     path, name);
+	//WARN(1, KERN_WARNING "sysfs: cannot create duplicate filename '%s/%s'\n",
+	//     path, name);
 
 	kfree(buf);
 }
