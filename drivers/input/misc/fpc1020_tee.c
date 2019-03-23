@@ -22,6 +22,10 @@
 #include <linux/spi/spi.h>
 #include <linux/wakelock.h>
 #include <linux/notifier.h>
+#include <linux/cpu_input_boost.h>
+#include <linux/devfreq_boost.h>
+#include <linux/state_notifier.h>
+
 
 #define FPC_DOWN_EVENT_ID 48
 #define FPC_UP_EVENT_ID   49
@@ -401,6 +405,12 @@ static irqreturn_t fpc1020_irq_handler(int irq, void *handle)
 	dev_dbg(fpc1020->dev, "%s\n", __func__);
 	fpc1020->irq_cnt++;
 	sysfs_notify(&fpc1020->dev->kobj, NULL, dev_attr_irq.attr.name);
+
+	if (state_suspended) {
+		cpu_input_boost_kick_wake();
+		devfreq_boost_kick_wake(DEVFREQ_MSM_CPUBW);
+	}
+
 	return IRQ_HANDLED;
 }
 
