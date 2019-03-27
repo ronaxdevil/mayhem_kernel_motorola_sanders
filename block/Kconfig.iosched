@@ -1,4 +1,4 @@
-block/Kconfig.ioschedif BLOCK
+if BLOCK
 
 menu "IO Schedulers"
 
