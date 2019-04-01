@@ -36,6 +36,10 @@ config IOSCHED_ZEN
 	tristate "Zen I/O scheduler"
 	default y
 
+config IOSCHED_MAPLE
+	tristate "Maple I/O scheduler"
+	default y
+
 config IOSCHED_CFQ
 	tristate "CFQ I/O scheduler"
 	default y
@@ -126,6 +130,9 @@ choice
 	config DEFAULT_FIOPS
 		bool "FIOPS" if IOSCHED_FIOPS=y
 
+	config DEFAULT_MAPLE
+		bool "Maple" if IOSCHED_MAPLE=y
+
 endchoice
 
 config DEFAULT_IOSCHED
@@ -137,6 +144,7 @@ config DEFAULT_IOSCHED
 	default "noop" if DEFAULT_NOOP
 	default "fiops" if DEFAULT_FIOPS
 	default "sio" if DEFAULT_SIO
+	default "maple" if DEFAULT_MAPLE
 
 endmenu
 
