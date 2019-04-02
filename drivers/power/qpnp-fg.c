@@ -8930,7 +8930,7 @@ static int fg_memif_init(struct fg_chip *chip)
 		return rc;
 	}
 
-	switch (chip->revision[DIG_MAJOR]) {
+	switch (chip->revision[DIG_MAJOR]){
 	case DIG_REV_1:
 	case DIG_REV_2:
 		chip->offset = offset[0].address;
