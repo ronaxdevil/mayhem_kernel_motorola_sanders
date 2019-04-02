@@ -221,5 +221,5 @@ test "$savedpre" && export LD_PRELOAD="$savedpre";
 unmount_all;
 
 ui_print " ";
-ui_print " ";
+ui_print "mayhem-kernel by @ronax";
 ui_print "Done!";
