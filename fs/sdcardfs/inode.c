@@ -1011,6 +1011,8 @@ const struct inode_operations sdcardfs_dir_iops = {
 	.setattr	= sdcardfs_setattr_wrn,
 	.setattr2	= sdcardfs_setattr,
 	.getattr	= sdcardfs_getattr,
+        .setxattr       = sdcardfs_setxattr,
+        .getxattr       = sdcardfs_getxattr,
 };
 
 const struct inode_operations sdcardfs_main_iops = {
