@@ -69,6 +69,7 @@ cp $KERNEL_DIR/out/arch/arm64/boot/Image.gz $ZIP_DIR/
 echo "**** Copying dtb ****"
 cp $KERNEL_DIR/out/arch/arm64/boot/dtb $ZIP_DIR/
 echo "**** Copying modules ****"
+mkdir -p zip/modules/vendor/lib/modules
 [ -e "$KERNEL_DIR/out/drivers/char/rdbg.ko" ] && cp $KERNEL_DIR/out/drivers/char/rdbg.ko $ZIP_DIR/modules/vendor/lib/modules || echo "module not found"
 [ -e "$KERNEL_DIR/out/drivers/media/usb/gspca/gspca_main.ko" ] && cp $KERNEL_DIR/out/drivers/media/usb/gspca/gspca_main.ko $ZIP_DIR/modules/vendor/lib/modules || echo "module not found..."
 [ -e "$KERNEL_DIR/out/drivers/misc/moto-dtv-fc8300/isdbt.ko" ] && cp $KERNEL_DIR/out/drivers/misc/moto-dtv-fc8300/isdbt.ko $ZIP_DIR/modules/vendor/lib/modules || echo "module not found..."
@@ -95,6 +96,7 @@ rm -rf zip/Image.gz
 rm -rf zip/dtb
 rm -rf zip/modules/vendor/lib/modules/*.ko
 rm -rf $KERNEL_DIR/out/
+rm -rf zip/modules/vendor/lib/modules
 
 BUILD_END=$(date +"%s")
 DIFF=$(($BUILD_END - $BUILD_START))
