@@ -13,8 +13,8 @@ DTBTOOL=$KERNEL_DIR/tools/
 JOBS=16
 ZIP_DIR=$KERNEL_DIR/zip/
 KERNEL=MAYHEM-KERNEL
-TYPE=CAF
-RELEASE=JUGGERNAUT-RELEASE
+TYPE=HMP
+RELEASE=DOOMSDAY
 FINAL_KERNEL_ZIP=$KERNEL-$TYPE-$RELEASE-$DATE_POSTFIX.zip
 # Speed up build process
 MAKE="./makeparallel"
@@ -40,7 +40,10 @@ make clean && make mrproper && rm -rf out/
 
 echo -e "$cyan // defconfig is set to $KERNEL_DEFCONFIG //"
 echo -e "$blue***********************************************"
-echo -e "$R          BUILDING MAYHEMKERNEL          "
+echo -e "$R          BUILDING MAYHEM-KERNEL          "
+echo -e "***********************************************$nocol"
+echo -e "$blue***********************************************"
+echo -e "$R             DOOMSDAY IS HERE             "
 echo -e "***********************************************$nocol"
 make $KERNEL_DEFCONFIG O=out
 make -j$JOBS CC=$CLANG_TOOLCHAIN CLANG_TRIPLE=aarch64-linux-gnu- O=out
@@ -65,6 +68,19 @@ echo "**** Copying Image.gz ****"
 cp $KERNEL_DIR/out/arch/arm64/boot/Image.gz $ZIP_DIR/
 echo "**** Copying dtb ****"
 cp $KERNEL_DIR/out/arch/arm64/boot/dtb $ZIP_DIR/
+echo "**** Copying modules ****"
+[ -e "$KERNEL_DIR/out/drivers/char/rdbg.ko" ] && cp $KERNEL_DIR/out/drivers/char/rdbg.ko $ZIP_DIR/modules/vendor/lib/modules || echo "module not found"
+[ -e "$KERNEL_DIR/out/drivers/media/usb/gspca/gspca_main.ko" ] && cp $KERNEL_DIR/out/drivers/media/usb/gspca/gspca_main.ko $ZIP_DIR/modules/vendor/lib/modules || echo "module not found..."
+[ -e "$KERNEL_DIR/out/drivers/misc/moto-dtv-fc8300/isdbt.ko" ] && cp $KERNEL_DIR/out/drivers/misc/moto-dtv-fc8300/isdbt.ko $ZIP_DIR/modules/vendor/lib/modules || echo "module not found..."
+[ -e "$KERNEL_DIR/out/drivers/spi/spidev.ko" ] && cp $KERNEL_DIR/out/drivers/spi/spidev.ko $ZIP_DIR/modules/vendor/lib/modules || echo "module not found..."
+[ -e "$KERNEL_DIR/out/drivers/video/backlight/backlight.ko" ] && cp $KERNEL_DIR/out/drivers/video/backlight/backlight.ko $ZIP_DIR/modules/vendor/lib/modules || echo "module not found..."
+[ -e "$KERNEL_DIR/out/crypto/ansi_cprng.ko" ] && cp $KERNEL_DIR/out/crypto/ansi_cprng.ko $ZIP_DIR/modules/vendor/lib/modules || echo "module not found..."
+[ -e "$KERNEL_DIR/out/drivers/video/backlight/generic_bl.ko" ] && cp $KERNEL_DIR/out/drivers/video/backlight/generic_bl.ko $ZIP_DIR/modules/vendor/lib/modules || echo "module not found..."
+[ -e "$KERNEL_DIR/out/drivers/video/backlight/lcd.ko" ] && cp $KERNEL_DIR/out/drivers/video/backlight/lcd.ko $ZIP_DIR/modules/vendor/lib/modules || echo "module not found..."
+[ -e "$KERNEL_DIR/out/net/bridge/br_netfilter.ko" ] && cp $KERNEL_DIR/out/net/bridge/br_netfilter.ko $ZIP_DIR/modules/vendor/lib/modules || echo "module not found..."
+[ -e "$KERNEL_DIR/out/drivers/mmc/card/mmc_test.ko" ] && cp $KERNEL_DIR/out/drivers/mmc/card/mmc_test.ko $ZIP_DIR/modules/vendor/lib/modules || echo "module not found..."
+[ -e "$KERNEL_DIR/out/drivers/input/evbug.ko" ] && cp $KERNEL_DIR/out/drivers/input/evbug.ko $ZIP_DIR/modules/vendor/lib/modules || echo "module not found..."
+[ -e "$KERNEL_DIR/out/drivers/usb/gadget/udc/dummy_hcd.ko" ] && cp $KERNEL_DIR/out/drivers/usb/gadget/udc/dummy_hcd.ko $ZIP_DIR/modules/vendor/lib/modules || echo "module not found..."
 
 echo "**** Time to zip up! ****"
 cd $ZIP_DIR/
@@ -77,6 +93,7 @@ rm -rf arch/arm64/boot/dtb
 rm -rf $ZIP_DIR/$FINAL_KERNEL_ZIP
 rm -rf zip/Image.gz
 rm -rf zip/dtb
+rm -rf zip/modules/vendor/lib/modules/*.ko
 rm -rf $KERNEL_DIR/out/
 
 BUILD_END=$(date +"%s")
