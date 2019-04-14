@@ -45,52 +45,22 @@
 
 #include <asm/unaligned.h>
 
-static const unsigned int dec32table[] = { 0, 1, 2, 1, 4, 4, 4, 4 };
-static const int dec64table[] = { 0, 0, 0, -1, 0, 1, 2, 3 };
+#include "lz4defs.h"
 
-/*-*****************************
- *	Decompression functions
- *******************************/
-/* LZ4_decompress_generic() :
- * This generic decompression function cover all use cases.
- * It shall be instantiated several times, using different sets of directives
- * Note that it is important this generic function is really inlined,
- * in order to remove useless branches during compilation optimization.
- */
-static FORCE_INLINE int LZ4_decompress_generic(
-	 const char * const source,
-	 char * const dest,
-	 int inputSize,
-		/*
-		 * If endOnInput == endOnInputSize,
-		 * this value is the max size of Output Buffer.
-		 */
-	 int outputSize,
-	 /* endOnOutputSize, endOnInputSize */
-	 int endOnInput,
-	 /* full, partial */
-	 int partialDecoding,
-	 /* only used if partialDecoding == partial */
-	 int targetOutputSize,
-	 /* noDict, withPrefix64k, usingExtDict */
-	 int dict,
-	 /* == dest when no prefix */
-	 const BYTE * const lowPrefix,
-	 /* only if dict == usingExtDict */
-	 const BYTE * const dictStart,
-	 /* note : = 0 if noDict */
-	 const size_t dictSize
-	 )
+static const int dec32table[] = {0, 3, 2, 3, 0, 0, 0, 0};
+#if LZ4_ARCH64
+static const int dec64table[] = {0, 0, 0, -1, 0, 1, 2, 3};
+#endif
+
+static int lz4_uncompress(const char *source, char *dest, int osize)
 {
 	const BYTE *ip = (const BYTE *) source;
 	const BYTE *ref;
 	BYTE *op = (BYTE *) dest;
 	BYTE * const oend = op + osize;
 	BYTE *cpy;
-	BYTE *oexit = op + targetOutputSize;
-	const BYTE * const lowLimit = lowPrefix - dictSize;
-
-	const BYTE * const dictEnd = (const BYTE *)dictStart + dictSize;
+	unsigned token;
+	size_t length;
 
 	while (1) {
 
