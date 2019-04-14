@@ -48,7 +48,7 @@ on property:persist.spectrum.profile=1
     # CPU
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor interactive
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 652800
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 2016000
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 2208000
     write /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load 80
     write /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay 0
     write /sys/devices/system/cpu/cpufreq/interactive/timer_rate 40000
@@ -64,8 +64,8 @@ on property:persist.spectrum.profile=1
     # GPU
     write /sys/devices/soc/1c00000.qcom,kgsl-3d0/devfreq/1c00000.qcom,kgsl-3d0/governor msm-adreno-tz
     write /sys/devices/soc/1c00000.qcom,kgsl-3d0/devfreq/1c00000.qcom,kgsl-3d0/min_freq 133000000
-    write /sys/devices/soc/1c00000.qcom,kgsl-3d0/devfreq/1c00000.qcom,kgsl-3d0/max_freq 650000000
-    write /sys/class/kgsl/kgsl-3d0/max_gpuclk 650000000
+    write /sys/devices/soc/1c00000.qcom,kgsl-3d0/devfreq/1c00000.qcom,kgsl-3d0/max_freq 700000000
+    write /sys/class/kgsl/kgsl-3d0/max_gpuclk 700000000
 
     # I/O Scheduler
     write /sys/block/mmcblk0/queue/read_ahead_kb 2048
@@ -101,7 +101,7 @@ on property:persist.spectrum.profile=3
     # CPU
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor performance
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 652800
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 2016000
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 2208000
     write /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load 80
     write /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay 0
     write /sys/devices/system/cpu/cpufreq/interactive/timer_rate 40000
@@ -117,8 +117,8 @@ on property:persist.spectrum.profile=3
     # GPU
     write /sys/devices/soc/1c00000.qcom,kgsl-3d0/devfreq/1c00000.qcom,kgsl-3d0/governor performance
     write /sys/devices/soc/1c00000.qcom,kgsl-3d0/devfreq/1c00000.qcom,kgsl-3d0/min_freq 133000000
-    write /sys/devices/soc/1c00000.qcom,kgsl-3d0/devfreq/1c00000.qcom,kgsl-3d0/max_freq 650000000
-    write /sys/class/kgsl/kgsl-3d0/max_gpuclk 650000000
+    write /sys/devices/soc/1c00000.qcom,kgsl-3d0/devfreq/1c00000.qcom,kgsl-3d0/max_freq 750000000
+    write /sys/class/kgsl/kgsl-3d0/max_gpuclk 750000000
 
     # I/O Scheduler
     write /sys/block/mmcblk0/queue/read_ahead_kb 2048
