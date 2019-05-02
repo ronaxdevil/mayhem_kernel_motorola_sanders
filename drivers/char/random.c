@@ -1908,6 +1908,7 @@ SYSCALL_DEFINE3(getrandom, char __user *, buf, size_t, count,
 		if (signal_pending(current))
 			return -ERESTARTSYS;
 	}
+#endif
 	return urandom_read(NULL, buf, count, NULL);
 }
 
