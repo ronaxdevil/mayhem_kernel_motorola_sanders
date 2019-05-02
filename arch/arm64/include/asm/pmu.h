@@ -79,8 +79,6 @@ struct arm_pmu {
 	struct pmu_hw_events	*(*get_hw_events)(void);
 	void			(*save_pm_registers)(void *hcpu);
 	void			(*restore_pm_registers)(void *hcpu);
-	struct notifier_block	hotplug_nb;
-	struct notifier_block	cpu_pm_nb;
 	int			(*check_event)(
 					 struct arm_pmu *armpmu,
 					 struct hw_perf_event *hwc);
