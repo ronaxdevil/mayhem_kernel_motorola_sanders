@@ -271,28 +271,6 @@ static int uid_time_in_state_seq_show(struct seq_file *m, void *v)
 		if (uid_entry->max_states)
 			seq_putc(m, '\n');
 	}
-	rcu_read_lock();
-
-	hlist_for_each_entry_rcu(uid_entry, (struct hlist_head *)v, hash) {
-		uid = (u32) uid_entry->uid;
-		seq_write(m, &uid, sizeof(uid));
-
-		for (i = 0; i < num_possible_cpus; ++i) {
-			time = (u32) cputime_to_clock_t(
-				atomic64_read(
-					&uid_entry->concurrent_policy_time[i]));
-			seq_write(m, &time, sizeof(time));
-		}
-	}
-	rcu_read_unlock();
-
-	return 0;
-}
-
-static int uid_cpupower_enable_show(struct seq_file *m, void *v)
-{
-	seq_putc(m, uid_cpupower_enable);
-	seq_putc(m, '\n');
 
 	rcu_read_unlock();
 	return 0;
@@ -1570,26 +1548,6 @@ static int __init cpufreq_stats_init(void)
 		uid_cpupower_enable = 1;
 	}
 
-	uid_cpupower = proc_mkdir("uid_cpupower", NULL);
-	if (!uid_cpupower) {
-		pr_warn("%s: failed to create uid_cputime proc entry\n",
-			__func__);
-	} else {
-		proc_create_data("enable", 0666, uid_cpupower,
-			&uid_cpupower_enable_fops, NULL);
-
-		proc_create_data("time_in_state", 0444, uid_cpupower,
-			&time_in_state_fops, NULL);
-
-		proc_create_data("concurrent_active_time", 0444, uid_cpupower,
-			&concurrent_active_time_fops, NULL);
-
-		proc_create_data("concurrent_policy_time", 0444, uid_cpupower,
-			&concurrent_policy_time_fops, NULL);
-
-		uid_cpupower_enable = 1;
-	}
-
 	cpufreq_all_freq_init = true;
 	return 0;
 }
@@ -1615,3 +1573,4 @@ MODULE_LICENSE("GPL");
 
 module_init(cpufreq_stats_init);
 module_exit(cpufreq_stats_exit);
+
